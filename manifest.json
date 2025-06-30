@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Data Leak Defender",
+  "version": "4.0.0",
+  "description": "Blocks private information like SSNs, emails, phone numbers, and card numbers from leaking to third-party sites.",
+
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png"
+    }
+  },
+
+  "permissions": [
+    "storage",
+    "notifications",
+    "scripting"
+  ],
+
+  "host_permissions": [
+    "<all_urls>"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["detector.js"],
+      "run_at": "document_start"
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": [ "inject.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+body{font-family:Arial,Helvetica,sans-serif;text-align:center;
+     padding:20px;width:320px;box-sizing:border-box;background:#fafafa}
+h2{margin-top:0}
+button{margin:6px 4px;padding:8px 14px;border:none;border-radius:6px;
+       font-weight:bold;cursor:pointer}
+#pauseBtn{background:#c62828;color:#fff}
+#resumeBtn{background:#2e7d32;color:#fff}
+body {
+  font-family: Arial, sans-serif;
+  padding: 0 14px 14px;
+  width: 330px;
+  box-sizing: border-box;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.tab {
+  flex: 1;
+  padding: 6px 0;
+  background: #f0f0f0;
+  border: none;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #1976d2;
+  color: #fff;
+  font-weight: bold;
+}
+
+.tab-content { font-size: 14px; }
+
+button {
+  padding: 8px 14px;
+  margin: 6px 3px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
