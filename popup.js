@@ -49,11 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
     passportUS: true,
     internationalBankAccount: true,
     cvv: true,
-    vin: true,
-    dlUS: true,
+    vin: false,
+    dlUS: false,
     homeAddress: true,
-    placeOfBirth: true,
-    employmentInformation: true,
+    placeOfBirth: false,
+    employmentInformation: false,
   };
 
   function prettifyKey(key) {
