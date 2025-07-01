@@ -47,10 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ssn: true,
     passportUS: true,
-    internationalBankAccount: true,
     cvv(4 digit on back of card): true,
     vin(Vehicle ID): false,
-    drivers license: false,
+    drivers license: true,
     homeAddress: true,
     placeOfBirth: false,
     employmentInformation: false,
