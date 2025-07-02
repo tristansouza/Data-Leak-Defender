@@ -4,19 +4,19 @@ const PATTERN_IDS = {
   creditCardNumber: true,
   cryptoAddresses: true,
   emailAddress: true,
-  ibanCodes: true,
+  
   ipAddresses: true,
   gpsCoordinates: true,
   dateOfBirth: true,
   ssn: true,
   passportUS: true,
-  internationalBankAccount: true,
-  cvv: true,
-  vin: true,
-  dlUS: true,
+  internationalBankAccount codes: true,
+  cvv(4 digits on back of card): true,
+  vin: false,
+  drivers License: true,
   homeAddress: true,
-  placeOfBirth: true,
-  employmentInformation: true,
+  placeOfBirth: false,
+  employmentInformation: false,
 };
 
 const prettify = k => k.replace(/([A-Z])/g, " $1").replace(/^./, c => c.toUpperCase());
