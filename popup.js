@@ -1,20 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-// === TAB HANDLING (robust version) ===
-const tabs     = document.querySelectorAll(".tab");
-const contents = document.querySelectorAll(".tab-content");
-
-tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
-    // remove active state
-    tabs.forEach(t => t.classList.remove("active"));
-    contents.forEach(c => c.classList.remove("active"));
-
-    // add active state
-    tab.classList.add("active");
-    const target = document.getElementById(tab.dataset.tab);
-    if (target) target.classList.add("active");
+  /* TAB HANDLING */
+  const tabs     = document.querySelectorAll(".tab");
+  const contents = document.querySelectorAll(".tab-content");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      contents.forEach(c => c.style.display = "none");
+      tab.classList.add("active");
+      document.getElementById(tab.dataset.tab).style.display = "block";
+    });
   });
-});
 
   /* PAUSE / RESUME */
   const pauseBtn  = document.getElementById("pauseBtn");
@@ -52,12 +47,13 @@ tabs.forEach(tab => {
 
     ssn: true,
     passportUS: true,
-    cvv(4 digit on back of card): true,
-    vin(Vehicle ID): false,
-    drivers license: true,
+    internationalBankAccount: true,
+    cvv: true,
+    vin: true,
+    dlUS: true,
     homeAddress: true,
-    placeOfBirth: false,
-    employmentInformation: false,
+    placeOfBirth: true,
+    employmentInformation: true,
   };
 
   function prettifyKey(key) {
