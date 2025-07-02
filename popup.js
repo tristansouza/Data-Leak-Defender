@@ -40,20 +40,20 @@ document.addEventListener("DOMContentLoaded", () => {
     creditCardNumber: true,
     cryptoAddresses: true,
     emailAddress: true,
-    ibanCodes: true,
+    
     ipAddresses: true,
-    gpsCoordinates: true,
+    gpsCoordinates: false,
     dateOfBirth: true,
 
     ssn: true,
     passportUS: true,
-    internationalBankAccount: true,
-    cvv: true,
+    internationalBankAccount codes: true,
+    cvv(4 digits on back of card): true,
     vin: true,
     dlUS: true,
     homeAddress: true,
-    placeOfBirth: true,
-    employmentInformation: true,
+    placeOfBirth: false,
+    employmentInformation: false,
   };
 
   function prettifyKey(key) {
