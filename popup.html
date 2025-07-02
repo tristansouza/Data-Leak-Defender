@@ -3,85 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <title>Data Leak Defender</title>
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      width: 360px;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
-    }
-    .tabs {
-      display: flex;
-      background-color: #ddd;
-      user-select: none;
-    }
-    .tab {
-      flex: 1;
-      padding: 12px;
-      text-align: center;
-      background: #eee;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-    }
-    .tab.active {
-      background: #fff;
-      font-weight: bold;
-      border-bottom-color: #000;
-    }
-    .tab-content {
-      display: none;
-      padding: 16px;
-    }
-    .tab-content.active {
-      display: block;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      cursor: pointer;
-    }
-    button {
-      margin: 8px;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #pauseBtn {
-      background-color: #c62828;
-      color: white;
-    }
-    #resumeBtn {
-      background-color: #2e7d32;
-      color: white;
-    }
+    :root { --accent:#1976d2; --bg:#f8f9fa; --text:#222; }
+    body   { font-family: Arial, sans-serif; width:360px; margin:0; padding:0; background:var(--bg); color:var(--text); }
+    .tabs  { display:flex; background:#ddd; user-select:none; }
+    .tab   { flex:1; text-align:center; padding:12px 0; cursor:pointer; background:#eee; border-bottom:2px solid transparent; }
+    .tab.active{ background:#fff; font-weight:bold; border-bottom-color:#000; }
+    .tab-content{ display:none; padding:16px; }
+    .tab-content.active{ display:block; }
+    button { margin:8px 4px; padding:8px 16px; border:none; border-radius:4px; cursor:pointer; color:#fff; }
+    #pauseBtn  { background:#c62828; }
+    #resumeBtn { background:#2e7d32; }
+    label  { display:block; margin:6px 0; cursor:pointer; }
+    input.toggle{ margin-right:6px; }
   </style>
 </head>
-<body>
 
+<body>
+  <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" data-tab="home">Home</div>
     <div class="tab" data-tab="customize">Customize</div>
-    <div class="tab" 
   </div>
 
+  <!-- Home tab -->
   <div id="home" class="tab-content active">
     <h2>Data Leak Defender</h2>
-    <p>Your extension is running in the background and will alert you when sensitive data is sent to another site.</p>
+    <p>The extension is running in the background and will alert you when sensitive data is sent to another site.</p>
     <button id="pauseBtn">Pause Protection</button>
-    <button id="resumeBtn" style="display: none;">Resume Protection</button>
+    <button id="resumeBtn" style="display:none;">Resume Protection</button>
     <p id="status"></p>
   </div>
 
+  <!-- Customize tab -->
   <div id="customize" class="tab-content">
     <h2>Customize Detection</h2>
-    <div id="toggleContainer">Loading patterns...</div>
-  </div>
-
-  <div id="contact" class="tab-content">
-    <h2>Contact Us</h2>
-    <p>Email: <a href="mailto:tristansouza5@gmail.com">tristansouza5@gmail.com</a></p>
+    <div id="toggleContainer">Loading patterns…</div>
   </div>
 
   <script src="popup.js"></script>
