@@ -17,7 +17,7 @@
       user-select: none;
     }
     .tab {
-      width:50%;
+      width: 50%;
       padding: 12px;
       text-align: center;
       background: #eee;
@@ -48,36 +48,30 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    #pauseBtn {
-      background-color: #c62828;
-      color: white;
-    }
-    #resumeBtn {
-      background-color: #2e7d32;
-      color: white;
-    }
+    #pauseBtn   { background-color: #c62828; color: #fff; }
+    #resumeBtn  { background-color: #2e7d32; color: #fff; }
   </style>
 </head>
+
 <body>
-
   <div class="tabs">
-  <div class="tab active" data-tab="home">Home</div>
-  <div class="tab" data-tab="customize">Customize</div>
-</div>
+    <div class="tab active" data-tab="home">Home</div>
+    <div class="tab" data-tab="customize">Customize</div>
+  </div>
 
-<div id="home" class="tab-content active">
-  <h2>Data Leak Defender</h2>
-  <p>Your extension is running in the background and will alert you when sensitive data is sent to another site.</p>
-  <button id="pauseBtn">Pause Protection</button>
-  <button id="resumeBtn" style="display:none;">Resume Protection</button>
-  <p id="status"></p>
-</div>
+  <div id="home" class="tab-content active">
+    <h2>Data Leak Defender</h2>
+    <p>Your extension is running in the background and will alert you when sensitive data is sent to another site.</p>
+    <button id="pauseBtn">Pause Protection</button>
+    <button id="resumeBtn" style="display: none;">Resume Protection</button>
+    <p id="status"></p>
+  </div>
 
-<div id="customize" class="tab-content">
-  <h2>Customize Detection</h2>
-  <div id="toggleContainer">Loading patterns...</div>
-</div>
+  <div id="customize" class="tab-content">
+    <h2>Customize Detection</h2>
+    <div id="toggleContainer">Loading patterns...</div>
+  </div>
 
-<script src="popup.js"></script>
+  <script src="popup.js"></script>
 </body>
-</head>
+</html>
