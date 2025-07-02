@@ -1,15 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /* TAB HANDLING */
-  const tabs     = document.querySelectorAll(".tab");
-  const contents = document.querySelectorAll(".tab-content");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      contents.forEach(c => c.style.display = "none");
-      tab.classList.add("active");
-      document.getElementById(tab.dataset.tab).style.display = "block";
-    });
+// === TAB HANDLING (robust version) ===
+const tabs     = document.querySelectorAll(".tab");
+const contents = document.querySelectorAll(".tab-content");
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    // remove active state
+    tabs.forEach(t => t.classList.remove("active"));
+    contents.forEach(c => c.classList.remove("active"));
+
+    // add active state
+    tab.classList.add("active");
+    const target = document.getElementById(tab.dataset.tab);
+    if (target) target.classList.add("active");
   });
+});
 
   /* PAUSE / RESUME */
   const pauseBtn  = document.getElementById("pauseBtn");
