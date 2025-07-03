@@ -5,13 +5,13 @@
   "version": "4.1.0",
   "description": "Blocks private information—SSNs, emails, credit-cards, location, and more—from leaking to third-party sites.",
 
-  /* ---------- BACKGROUND (MV3 style) ---------- */
+   
   "background": {
     "service_worker": "background.js",
     "type": "module"          /* ≤—  remove this line if you DON’T use ES-imports in background.js */
   },
 
-  /* ---------- ACTION (popup) ---------- */
+  
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -21,19 +21,19 @@
     }
   },
 
-  /* ---------- PERMISSIONS ---------- */
+  
   "permissions": [
     "storage",
     "scripting",
     "notifications"
   ],
 
-  /* ---------- HOST PERMISSIONS ---------- */
+   
   "host_permissions": [
     "<all_urls>"
   ],
 
-  /* ---------- CONTENT SCRIPT ---------- */
+  
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -42,7 +42,7 @@
     }
   ],
 
-  /* ---------- WEB-ACCESSIBLE RESOURCES ---------- */
+   
   "web_accessible_resources": [
     {
       "resources": ["inject.js", "patterns.js", "icons/icon48.png"],
@@ -50,7 +50,7 @@
     }
   ],
 
-  /* ---------- ICONS (browser store) ---------- */
+  
   "icons": {
     "16":  "icons/icon16.png",
     "48":  "icons/icon48.png",
