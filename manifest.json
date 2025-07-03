@@ -8,7 +8,7 @@
    
   "background": {
     "service_worker": "background.js",
-    "type": "module"          /* ≤—  remove this line if you DON’T use ES-imports in background.js */
+    "type": "module"          
   },
 
   
