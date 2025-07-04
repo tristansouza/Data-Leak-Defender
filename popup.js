@@ -61,38 +61,33 @@ document.addEventListener("DOMContentLoaded", () => {
     buildToggleUI(new Set(enabledPatterns));
   });
 
-  function buildToggleUI(activeSet){
-    container.innerHTML = "";
-    for(const key of Object.keys(PATTERN_IDS)){
-      const checked = activeSet.has(key);
-      const lbl = document.createElement("label");
-      const container = document.getElementById("toggleContainer");
-container.innerHTML = ""; // Clear previous content
+  function buildToggleUI(activeSet) {
+  container.innerHTML = "";
 
-patterns.forEach(pattern => {
-  const label = document.createElement("label");
-  const checkbox = document.createElement("input");
+  Object.keys(PATTERN_IDS).forEach(key => {
+    const checked = activeSet.has(key);
 
-  checkbox.type = "checkbox";
-  checkbox.className = "toggle";
-  checkbox.dataset.type = pattern.id;
-  checkbox.checked = pattern.enabled;
+    // <label><input type="checkbox" ...> Pretty Name</label>
+    const label = document.createElement("label");
+    const cb    = document.createElement("input");
+    cb.type = "checkbox";
+    cb.className = "toggle";
+    cb.dataset.type = key;
+    cb.checked = checked;
 
-  label.appendChild(checkbox);
-  label.appendChild(document.createTextNode(" " + pattern.name));
-  container.appendChild(label);
-});
- class="toggle" data-type="${key}" ${checked?"checked":""}> ${prettify(key)}`;
-      container.appendChild(lbl);
-    }
-    container.querySelectorAll(".toggle").forEach(tg=>{
-      tg.addEventListener("change", ()=>{
-        chrome.storage.local.get("enabledPatterns", ({ enabledPatterns=[] })=>{
-          const set=new Set(enabledPatterns);
-          tg.checked? set.add(tg.dataset.type):set.delete(tg.dataset.type);
-          chrome.storage.local.set({ enabledPatterns:[...set] });
-        });
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(" " + prettify(key)));
+    container.appendChild(label);
+  });
+
+  // Save changes when a checkbox toggles
+  container.querySelectorAll(".toggle").forEach(tg => {
+    tg.addEventListener("change", () => {
+      chrome.storage.local.get("enabledPatterns", ({ enabledPatterns = [] }) => {
+        const set = new Set(enabledPatterns);
+        tg.checked ? set.add(tg.dataset.type) : set.delete(tg.dataset.type);
+        chrome.storage.local.set({ enabledPatterns: [...set] });
       });
     });
-  }
-});
+  });
+}
