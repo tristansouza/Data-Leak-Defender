@@ -107,7 +107,12 @@ const showSidePopup = (host, text, color, btnLabel, btnAction) => {
       position:fixed;bottom:20px;right:20px;max-width:260px;
       background:${color};color:#000;padding:10px 14px;border-radius:6px;
       font:13px Arial;z-index:999999;box-shadow:0 0 6px rgba(0,0,0,.3)`;
-  div.innerHTML = `
+  function sanitize(str) {
+  const temp = document.createElement("div");
+  temp.textContent = str;
+  return temp.innerHTML;
+}
+someElement.innerHTML = sanitize(divHTML);
       ${text}<br>
       <button style="margin-top:6px;padding:4px 8px;">${btnLabel}</button>`;
   document.body.appendChild(div);
