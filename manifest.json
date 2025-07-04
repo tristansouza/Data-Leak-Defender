@@ -8,7 +8,7 @@
   
   "background": {
     "service_worker": "background.js"
-    /*  NO  \"type\":\"module\"  — Firefox will reject it */
+    
   },
 
   
