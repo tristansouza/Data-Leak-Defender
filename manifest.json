@@ -65,8 +65,8 @@
   
   "browser_specific_settings": {
     "gecko": {
-      "id": "dld@example.com",        /*  <<< choose any reverse-DNS style ID */
-      "strict_min_version": "109.0"   /*  MV3 support starts here */
+      "id": "dld@example.com",        /*  <<< 
+      "strict_min_version": "109.0"   /*  MV3 
     }
   }
 }
