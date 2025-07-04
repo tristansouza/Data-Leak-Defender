@@ -66,7 +66,23 @@ document.addEventListener("DOMContentLoaded", () => {
     for(const key of Object.keys(PATTERN_IDS)){
       const checked = activeSet.has(key);
       const lbl = document.createElement("label");
-      lbl.innerHTML = `<input type="checkbox" class="toggle" data-type="${key}" ${checked?"checked":""}> ${prettify(key)}`;
+      const container = document.getElementById("toggleContainer");
+container.innerHTML = ""; // Clear previous content
+
+patterns.forEach(pattern => {
+  const label = document.createElement("label");
+  const checkbox = document.createElement("input");
+
+  checkbox.type = "checkbox";
+  checkbox.className = "toggle";
+  checkbox.dataset.type = pattern.id;
+  checkbox.checked = pattern.enabled;
+
+  label.appendChild(checkbox);
+  label.appendChild(document.createTextNode(" " + pattern.name));
+  container.appendChild(label);
+});
+ class="toggle" data-type="${key}" ${checked?"checked":""}> ${prettify(key)}`;
       container.appendChild(lbl);
     }
     container.querySelectorAll(".toggle").forEach(tg=>{
