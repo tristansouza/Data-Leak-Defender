@@ -1,38 +1,39 @@
 {
   "manifest_version": 3,
+
   "name": "Data Leak Defender",
-  "version": "4.0.0",
-  "description": "Blocks private information like SSNs, emails, phone numbers, and card numbers from leaking to third-party sites.",
+  "version": "4.2.1",
+  "description": "Blocks private information—SSNs, e-mails, credit-cards, GPS, and more—from leaking to third-party sites.",
 
-  "icons": {
-    "16": "icon-16.png",
-    "32": "icon-32.png",
-    "48": "icon-48.png",
-    "128": "icon-128.png"
-  },
-
+  /* ---------- BACKGROUND ---------- */
   "background": {
     "service_worker": "background.js"
+    /*  NO  \"type\":\"module\"  — Firefox will reject it */
   },
 
+  /* ---------- ACTION / POPUP ---------- */
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icon-16.png",
-      "32": "icon-32.png"
+      "32": "icon-32.png",
+      "48": "icon-48.png"
     }
   },
 
+  /* ---------- PERMISSIONS ---------- */
   "permissions": [
     "storage",
-    "notifications",
-    "scripting"
+    "tabs",
+    "scripting",
+    "notifications"
   ],
 
   "host_permissions": [
     "<all_urls>"
   ],
 
+  /* ---------- CONTENT SCRIPT ---------- */
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -41,10 +42,31 @@
     }
   ],
 
+  /* ---------- WEB-ACCESSIBLE RESOURCES ---------- */
   "web_accessible_resources": [
     {
-      "resources": ["inject.js"],
+      "resources": [
+        "inject.js",
+        "patterns.js",
+        "icons/icon48.png"
+      ],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+
+  /* ---------- ICONS ---------- */
+  "icons": {
+    "16":  "icon-16.png",
+    "32":  "icon-32.png",
+    "48":  "icon-48.png",
+    "128": "icon-128.png"
+  },
+
+  /* ---------- FIREFOX-SPECIFIC SETTINGS ---------- */
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "dld@example.com",        /*  <<< choose any reverse-DNS style ID */
+      "strict_min_version": "109.0"   /*  MV3 support starts here */
+    }
+  }
 }
