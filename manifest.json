@@ -1,17 +1,11 @@
 {
   "manifest_version": 3,
-
   "name": "Data Leak Defender",
   "version": "4.2.1",
-  "description": "Blocks private information—SSNs, e-mails, credit-cards, GPS, and more—from leaking to third-party sites.",
-
-  
+  "description": "Blocks private information from leaking to third-party sites.",
   "background": {
     "service_worker": "background.js"
-    
   },
-
-  
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -20,20 +14,15 @@
       "48": "icon-48.png"
     }
   },
-
-  
   "permissions": [
     "storage",
     "tabs",
     "scripting",
     "notifications"
   ],
-
   "host_permissions": [
     "<all_urls>"
   ],
-
-  
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -41,8 +30,6 @@
       "run_at": "document_start"
     }
   ],
-
-  
   "web_accessible_resources": [
     {
       "resources": [
@@ -53,20 +40,16 @@
       "matches": ["<all_urls>"]
     }
   ],
-
-  
   "icons": {
-    "16":  "icon-16.png",
-    "32":  "icon-32.png",
-    "48":  "icon-48.png",
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
     "128": "icon-128.png"
   },
-
-  
   "browser_specific_settings": {
     "gecko": {
-      "id": "dld@example.com",        
-      "strict_min_version": "109.0"    
+      "id": "dld@example.com",
+      "strict_min_version": "109.0"
     }
   }
 }
