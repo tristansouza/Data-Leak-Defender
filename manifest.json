@@ -3,8 +3,8 @@
   "name": "Data Leak Defender",
   "version": "4.2.1",
   "description": "Blocks private information from leaking to third-party sites.",
-  "background": {
-    "scripts": "background.js"
+    "background": {
+    "scripts": ["background.js"]   
   },
   "action": {
     "default_popup": "popup.html",
