@@ -129,7 +129,7 @@ someElement.innerHTML = sanitize(divHTML);
 let banner = null;
 const prompt = (host, msg, onAllow, onBlock) => {
   if (banner) banner.remove();
-  banner = document.createElement("div");
+  bannerElement.innerHTML = sanitize(bannerHTML);
   banner.style = `
     position:fixed;top:0;left:0;width:100%;
     padding:14px;background:#d32f2f;color:#fff;
