@@ -108,9 +108,13 @@ const showSidePopup = (host, text, color, btnLabel, btnAction) => {
       position:fixed;bottom:20px;right:20px;max-width:260px;
       background:${color};color:#000;padding:10px 14px;border-radius:6px;
       font:13px Arial;z-index:999999;box-shadow:0 0 6px rgba(0,0,0,.3)`;
- div.innerHTML = `
-      ${sanitize(text)}<br>
-      <button style="margin-top:6px;padding:4px 8px;">${sanitize(btnLabel)}</button>`;
+ div.appendChild(document.createTextNode(text));
+div.appendChild(document.createElement("br"));
+
+const btn = document.createElement("button");
+btn.style.cssText = "margin-top:6px;padding:4px 8px;";
+btn.textContent = btnLabel;
+div.appendChild(btn);
   document.body.appendChild(div);
   div.querySelector("button").onclick = () => {
     btnAction();
@@ -130,10 +134,28 @@ const prompt = (host, msg, onAllow, onBlock) => {
     position:fixed;top:0;left:0;width:100%;
     padding:14px;background:#d32f2f;color:#fff;
     font:700 14px Arial;text-align:center;z-index:2147483647`;
- banner.innerHTML = `
-    Potential leak to <b>${sanitize(host)}</b><br><small>${sanitize(msg)}</small><br><br>
-    <button id="dld-false">Report False Alarm</button>
-    <button id="dld-block">Block Request</button>`;
+banner.textContent = "";                       // clear
+banner.appendChild(document.createTextNode("Potential leak to "));
+const b = document.createElement("b");
+b.textContent = host;
+banner.appendChild(b);
+banner.appendChild(document.createElement("br"));
+
+const small = document.createElement("small");
+small.textContent = msg;
+banner.appendChild(small);
+banner.appendChild(document.createElement("br"));
+banner.appendChild(document.createElement("br"));
+
+const btnFalse = document.createElement("button");
+btnFalse.id = "dld-false";
+btnFalse.textContent = "Report False Alarm";
+banner.appendChild(btnFalse);
+
+const btnBlock = document.createElement("button");
+btnBlock.id = "dld-block";
+btnBlock.textContent = "Block Request";
+banner.appendChild(btnBlock);
   document.body.appendChild(banner);
 
   document.getElementById("dld-false").onclick = () => {
