@@ -130,7 +130,7 @@ const prompt = (host, msg, onAllow, onBlock) => {
     position:fixed;top:0;left:0;width:100%;
     padding:14px;background:#d32f2f;color:#fff;
     font:700 14px Arial;text-align:center;z-index:2147483647`;
-  banner.innerHTML = `
+ banner.innerHTML = `
     Potential leak to <b>${sanitize(host)}</b><br><small>${sanitize(msg)}</small><br><br>
     <button id="dld-false">Report False Alarm</button>
     <button id="dld-block">Block Request</button>`;
