@@ -16,29 +16,17 @@ const PATTERN_IDS = {
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.get("enabledPatterns", (data) => {
     if (!Array.isArray(data.enabledPatterns)) {
-      const all = Object.keys(PATTERN_IDS);
-      chrome.storage.local.set({ enabledPatterns: all });
+      chrome.storage.local.set({ enabledPatterns: Object.keys(PATTERN_IDS) });
     }
   });
-});
 
-
-console.log("✅ Background service worker loaded");
-
-chrome.runtime.onInstalled.addListener(() => {
-  console.log("Extension installed.");
-});
-
-// Initialize storage
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get(['whitelist', 'logs', 'dld_paused'], data => {
-    if (!data.whitelist) chrome.storage.local.set({ whitelist: [] });
+  chrome.storage.local.get(['whitelist', 'logs', 'dld_paused'], (data) => {
+    if (!data.whitelist) chrome.storage.local.set({ whitelist: ["google.com", "edge.com", "firefox.com", "opera.com"] });
     if (!data.logs) chrome.storage.local.set({ logs: [] });
     if (data.dld_paused === undefined) chrome.storage.local.set({ dld_paused: false });
   });
 });
 
-// Listen for messages from detector or popup
 chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
   if (msg.type === "CHECK_WHITELIST") {
     const { whitelist = [] } = await chrome.storage.local.get('whitelist');
@@ -52,12 +40,8 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
     const { whitelist = [], dld_paused = false } = await chrome.storage.local.get(['whitelist', 'dld_paused']);
     const hostname = new URL(url).hostname;
 
-    if (whitelist.includes(hostname) || dld_paused) {
-      // Do nothing if whitelisted or paused
-      return;
-    }
+    if (whitelist.includes(hostname) || dld_paused) return;
 
-    // Save to logs
     const { logs = [] } = await chrome.storage.local.get('logs');
     logs.unshift({
       time: new Date().toISOString(),
@@ -69,12 +53,12 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
     if (logs.length > 1000) logs.pop();
     await chrome.storage.local.set({ logs });
 
-    // Notify user
     chrome.notifications.create('leak_alert', {
       type: 'basic',
       iconUrl: 'icon.png',
       title: 'Data Leak Defender Alert',
-      message: `Potential ${dataType} leak detected on ${hostname}`,
+      message: `⚠️ Potential ${dataType.toUpperCase()} leak detected on ${hostname}`,
+
       buttons: [
         { title: "Pause Protection" },
         { title: "Add site to whitelist" },
@@ -115,22 +99,16 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
     sendResponse({ paused: dld_paused });
     return true;
   }
-
-  return true;
 });
 
-// Notification button handler
 chrome.notifications.onButtonClicked.addListener(async (notifId, btnIdx) => {
   if (notifId !== 'leak_alert') return;
-
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tabs.length) return;
   const tab = tabs[0];
-  const url = new URL(tab.url);
-  const hostname = url.hostname;
+  const hostname = new URL(tab.url).hostname;
 
   if (btnIdx === 0) {
-    // Pause protection
     await chrome.storage.local.set({ dld_paused: true });
     chrome.notifications.create({
       type: "basic",
@@ -139,7 +117,6 @@ chrome.notifications.onButtonClicked.addListener(async (notifId, btnIdx) => {
       message: "Protection paused by user."
     });
   } else if (btnIdx === 1) {
-    // Add to whitelist
     const { whitelist = [] } = await chrome.storage.local.get('whitelist');
     if (!whitelist.includes(hostname)) {
       whitelist.push(hostname);
@@ -152,43 +129,30 @@ chrome.notifications.onButtonClicked.addListener(async (notifId, btnIdx) => {
       message: `${hostname} added to whitelist.`
     });
   } else if (btnIdx === 2) {
-    // Open options for false positive reporting
     chrome.runtime.openOptionsPage();
   }
 
   chrome.notifications.clear(notifId);
 });
-chrome.runtime.onMessage.addListener(msg=>{
-  if(msg.type==='POTENTIAL_LEAK'){
-    chrome.notifications.create({
-      type:'basic',
-      iconUrl:'icon.png',
-      title:'Data Leak Defender',
-      message:msg.detail
-    });
-  }
-});
-chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === "POTENTIAL_LEAK") {
-    chrome.notifications.create({
-      type: "basic",
-      iconUrl: "icon.png",
-      title: "⚠️ Data Leak Defender",
-      message: msg.detail
-    });
-  }
-});
+
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === 'SET_BADGE') {
-    if (msg.paused) {
-      chrome.action.setBadgeText({ text: 'II' });
-      chrome.action.setBadgeBackgroundColor({ color: '#616161' });
-    } else {
-      chrome.action.setBadgeText({ text: '' });
+    // Skip badge-related logic on Firefox
+    if (typeof InstallTrigger !== 'undefined') return;
+
+    try {
+      if (msg.paused) {
+        chrome.action.setBadgeText({ text: 'II' });
+        chrome.action.setBadgeBackgroundColor({ color: '#616161' });
+      } else {
+        chrome.action.setBadgeText({ text: '' });
+      }
+    } catch (e) {
+      console.warn("Badge API not supported in this browser.");
     }
   }
 });
-// Handle allow / block decisions sent by inject.js
+
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "DLD_DECISION") {
     chrome.storage.local.get(['whitelist', 'blocklist'], (d) => {
@@ -196,17 +160,26 @@ chrome.runtime.onMessage.addListener((msg) => {
       const bl = new Set(d.blocklist || []);
 
       if (msg.action === "allow") {
-        wl.add(msg.host); bl.delete(msg.host);
-        chrome.notifications.create({ type:"basic", iconUrl:"icon.png",
-          title:"False Alarm Recorded",
-          message:`${msg.host} added to whitelist.` });
+        wl.add(msg.host);
+        bl.delete(msg.host);
+        chrome.notifications.create({
+          type: "basic",
+          iconUrl: "icon.png",
+          title: "False Alarm Recorded",
+          message: `${msg.host} added to whitelist.`
+        });
       } else if (msg.action === "block") {
-        bl.add(msg.host); wl.delete(msg.host);
-        chrome.notifications.create({ type:"basic", iconUrl:"icon.png",
-          title:"Request Blocked",
-          message:`Future leaks to ${msg.host} will be blocked.` });
+        bl.add(msg.host);
+        wl.delete(msg.host);
+        chrome.notifications.create({
+          type: "basic",
+          iconUrl: "icon.png",
+          title: "Request Blocked",
+          message: `Future leaks to ${msg.host} will be blocked.`
+        });
       }
-      chrome.storage.local.set({ whitelist:[...wl], blocklist:[...bl] });
+
+      chrome.storage.local.set({ whitelist: [...wl], blocklist: [...bl] });
     });
   }
 });
